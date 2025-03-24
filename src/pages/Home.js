@@ -1,3 +1,4 @@
+import CameraCapture from "./CameraCapture";
 
 
 const Home = () => {
@@ -10,7 +11,7 @@ const Home = () => {
             <a href="/login">로그인</a>
             <br />
             <a href="/naverLogin">네이버버</a>
-
+            <CameraCapture/>
         </div>
     );
 };

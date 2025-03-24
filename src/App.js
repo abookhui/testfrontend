@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
 import Home from "./pages/Home";
 import NaverLogin from "./pages/NaverLogin";
+import CameraCapture from "./pages/CameraCapture";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<MyPage />} />
-        
+        <Route path="/picture" element={< CameraCapture />} />
         
       </Routes>
     </Router>

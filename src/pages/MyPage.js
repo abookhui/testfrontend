@@ -74,6 +74,7 @@ const MyPage = () => {
         <p>유저 정보를 불러올 수 없습니다.</p>
       )}
 
+      <a href="/picture">사진찍기</a>
       <button onClick={handleLogout}>로그아웃</button>
     </div>
   );
