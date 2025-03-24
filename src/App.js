@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<MyPage />} />
         
-
+        
       </Routes>
     </Router>
 

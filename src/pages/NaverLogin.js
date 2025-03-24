@@ -1,13 +1,15 @@
 import api from "../api";
 
+
 function NaverLogin() {
+
     const handleNaverLogin = async () => {
         try {
             // 네이버 로그인 URL 가져오기
-            //const response = await axios.get("http://localhost:8080/api/auth/naver");
             const response = await api.get("/auth/naver");
 
             window.location.href = response.data; // 네이버 로그인 페이지로 이동
+            //로그인 성공 시 /mypage로 리다이렉트트
         } catch (error) {
             console.error("네이버 로그인 URL 요청 실패:", error);
         }
