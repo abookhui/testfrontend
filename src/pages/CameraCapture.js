@@ -13,7 +13,7 @@ function CameraCapture() {
 
   return (
     <div>
-      <h2>📱 모바일 카메라로 촬영</h2>
+      <h2>카메라로 촬영</h2>
 
       <input
         type="file"
@@ -25,7 +25,7 @@ function CameraCapture() {
 
       {photo && (
         <div>
-          <h3>🖼️ 촬영한 사진</h3>
+          <h3>촬영한 사진</h3>
           <img src={photo} alt="촬영 이미지" style={{ width: '100%', maxWidth: '400px' }} />
         </div>
       )}
@@ -34,3 +34,5 @@ function CameraCapture() {
 }
 
 export default CameraCapture;
+
+
