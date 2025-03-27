@@ -38,44 +38,33 @@ const App = () => {
     }
   };
 
+
   return (
-<<<<<<< HEAD
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/naverLogin" element={<NaverLogin />} />
+      <>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/naverLogin" element={<NaverLogin />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/picture" element={< CameraCapture />} />
-          <Route path="/picture2" element={< CameraWithFrame />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/picture" element={< CameraCapture />} />
+            <Route path="/picture2" element={< CameraWithFrame />} />
 
-        
-      </Routes>
-    </Router>
-=======
-    <>
-      {/* 설치 버튼 */}
+
+          </Routes>
+        </Router>
+
+
       {showInstallButton && (
-        <div style={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 1000 }}>
-          <button onClick={handleInstallClick} style={{ padding: "10px 20px", fontSize: "16px" }}>
-            앱 설치하기
-          </button>
-        </div>
+          <div style={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 1000 }}>
+            <button onClick={handleInstallClick} style={{ padding: "10px 20px", fontSize: "16px" }}>
+              앱 설치하기
+            </button>
+          </div>
       )}
->>>>>>> e67de84b076e43ff0aecf8826377178f9d514f97
 
-      {/* 라우터 설정 */}
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/naverLogin" element={<NaverLogin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/picture" element={<CameraCapture />} />
-        </Routes>
-      </Router>
-    </>
+  </>
   );
 };
 
