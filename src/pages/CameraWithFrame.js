@@ -1,61 +1,92 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 const CameraWithFrame = () => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const [photo, setPhoto] = useState(null);
+    const [streaming, setStreaming] = useState(false);
 
-    // 카메라 켜기
     useEffect(() => {
-        const getVideo = async () => {
+        const enableCamera = async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                }
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                videoRef.current.srcObject = stream;
+                setStreaming(true);
             } catch (err) {
                 console.error('카메라 접근 실패:', err);
             }
         };
-        getVideo();
+
+        enableCamera();
+
+        return () => {
+            if (videoRef.current?.srcObject) {
+                videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+            }
+        };
     }, []);
 
-    // 캡처 함수
-    const takePhoto = () => {
-        const width = 640;
-        const height = 480;
-        const context = canvasRef.current.getContext('2d');
-        canvasRef.current.width = width;
-        canvasRef.current.height = height;
+    const capture = () => {
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
 
-        context.drawImage(videoRef.current, 0, 0, width, height);
-        const data = canvasRef.current.toDataURL('image/png');
-        setPhoto(data);
+        const fullWidth = video.videoWidth;
+        const fullHeight = video.videoHeight;
+
+        // 프레임 영역 비율 (가운데 박스)
+        const cropX = fullWidth * 0.1;
+        const cropY = fullHeight * 0.3;
+        const cropWidth = fullWidth * 0.8;
+        const cropHeight = fullHeight * 0.4;
+
+        // 캔버스를 프레임 크기로 설정
+        canvas.width = cropWidth;
+        canvas.height = cropHeight;
+
+        // 프레임 영역만 캡처
+        context.drawImage(video, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+        const imageDataURL = canvas.toDataURL('image/png');
+        setPhoto(imageDataURL);
     };
 
     return (
-        <div className="flex flex-col items-center">
-            <div className="relative w-[640px] h-[480px] border-4 border-black">
-                <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover rounded" />
+        <div style={{ textAlign: 'center' }}>
+            <h2>📸 신분증/가격표 촬영</h2>
 
-                {/* 네모 가이드 박스 */}
+            <div style={{ position: 'relative', width: '100%', maxWidth: '640px', margin: 'auto' }}>
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    style={{ width: '100%', borderRadius: '8px' }}
+                />
+
+                {/* 프레임 오버레이 */}
                 <div
-                    className="absolute border-4 border-yellow-400 rounded"
-                    style={{ top: '30%', left: '10%', width: '80%', height: '40%' }}
-                ></div>
+                    style={{
+                        position: 'absolute',
+                        top: '30%',
+                        left: '10%',
+                        width: '80%',
+                        height: '40%',
+                        border: '3px dashed #00f7ff',
+                        borderRadius: '8px',
+                        boxSizing: 'border-box',
+                        pointerEvents: 'none',
+                    }}
+                />
             </div>
 
-            <button
-                onClick={takePhoto}
-                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded shadow"
-            >
-                캡처
+            <button onClick={capture} style={{ marginTop: '1rem', padding: '10px 20px' }}>
+                📷 캡처
             </button>
 
             {photo && (
-                <div className="mt-4">
-                    <h3 className="mb-2 font-bold">캡처된 이미지</h3>
-                    <img src={photo} alt="Captured" className="border rounded w-[320px]" />
+                <div style={{ marginTop: '1rem' }}>
+                    <h3>🖼️ 캡처된 이미지</h3>
+                    <img src={photo} alt="Captured" style={{ maxWidth: '100%', border: '1px solid #ccc' }} />
                 </div>
             )}
 
